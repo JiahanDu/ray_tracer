@@ -4,53 +4,56 @@
 #include <cmath>
 #include <iostream>
 
-class vec3{
+template <typename Derived>
+class vector{
+
   public:
-    double e[3];
+    double v[3];
 
-    vec3():e{0,0,0}{}
+  public:
+    vector():v{0,0,0}{}
 
-    vec3(double e0, double e1, double e2): e{e0,e1,e2}{}
+    vector(double x, double y, double z): v{x,y,z}{}
 
     double x() const{
-      return e[0];
+      return v[0];
     }
     
     double y() const{
-      return e[1];
+      return v[1];
     }
 
     double z() const{
-      return e[2];
+      return v[2];
     }
 
-    vec3 operator-() const{
-      return vec3(-e[0],-e[1],-e[2]);
+    vector operator-() const{
+      return vector(-v[0],-v[1],-v[2]);
     }
 
     double operator[](int i) const{
-      return e[i];
+      return v[i];
     }
 
     double& operator[] (int i){
       return e[i];
     }
 
-    vec3& operator+=(const vec3& v){
-      e[0]+=v.e[0];
-      e[1]+=v.e[1];
-      e[2]+=v.e[2];
+    vector& operator+=(const vector& other){
+      v[0]+=other.v[0];
+      v[1]+=other.v[1];
+      v[2]+=other.v[2];
       return *this;
     }
 
-    vec3& operator *=(double t){
-      e[0]*=t;
-      e[1]*=t;
-      e[2]*=t;
+    vector& operator *=(double t){
+      v[0]*=t;
+      v[1]*=t;
+      v[2]*=t;
       return *this;
     }
 
-    vec3& operator /=(double t){
+    vector& operator /=(double t){
       return *this*=1/t;
     }
 
