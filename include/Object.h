@@ -12,10 +12,10 @@ class HitRecord{
     bool exiting;
 };
 
-class Objects{
+class Object{
   public:
-    virtual ~Objects()= default;
+    virtual ~Object()= default;
 
-    virtual bool intersect(const Ray& r, double t_min, double t_max, HitRecord& rec) const=0;
+    virtual bool hit(const Ray& r, double t_min, double t_max, HitRecord& rec) const=0;
 };
 #endif 

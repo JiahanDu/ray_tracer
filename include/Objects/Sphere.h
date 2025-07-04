@@ -6,7 +6,7 @@ class Sphere: public Objects{
     Point center;
     double radius; 
   public:
-    bool intersect(const Ray& r, double t_min, double t_max, Hit& rec) const override{
-        
+    bool hit(const Ray& r, double t_min, double t_max, Hit& rec) const override{
+
     }
 };
