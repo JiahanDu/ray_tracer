@@ -1,107 +1,95 @@
-#ifndef VEC3_H
-#define VEC3_H
-
 #include <cmath>
 #include <iostream>
 
-template <typename Derived>
-class vector{
+template <typename T>
+class Vector{
 
   public:
     double v[3];
 
   public:
-    vector():v{0,0,0}{}
-
-    vector(double x, double y, double z): v{x,y,z}{}
-
-    double x() const{
-      return v[0];
-    }
     
-    double y() const{
-      return v[1];
+    Vector():v{0,0,0}{}
+
+    Vector(double x, double y, double z): v{x,y,z}{}
+
+    double x() const{ return v[0];}
+    
+    double y() const{ return v[1];}
+
+    double z() const{ return v[2];}
+
+    Vector operator-() const{
+      return Vector(-v[0],-v[1],-v[2]);
     }
 
-    double z() const{
-      return v[2];
-    }
+    double operator[](int i) const{ return v[i];}
 
-    vector operator-() const{
-      return vector(-v[0],-v[1],-v[2]);
-    }
+    double& operator[](int i){ return v[i];}
 
-    double operator[](int i) const{
-      return v[i];
-    }
-
-    double& operator[] (int i){
-      return e[i];
-    }
-
-    vector& operator+=(const vector& other){
+    T& operator+=(const Vector<T>& other){
       v[0]+=other.v[0];
       v[1]+=other.v[1];
       v[2]+=other.v[2];
-      return *this;
+      return *static_cast<T*>(this);
     }
 
-    vector& operator *=(double t){
+    T& operator *=(double t){
       v[0]*=t;
       v[1]*=t;
       v[2]*=t;
-      return *this;
+      return *static_cast<T*>(this);
     }
 
-    vector& operator /=(double t){
-      return *this*=1/t;
+    T& operator /=(double t){
+      t=1/t;
+      v[0]*=t;
+      v[1]*=t;
+      v[2]*=t;
+      return *static_cast<T*>(this);
     }
 
-    double length_squared() const{
-      return e[0]*e[0]+e[1]*e[1]+e[2]*e[2];
-    }
+    double length_squared() const{ return v[0]*v[0]+v[1]*v[1]+v[2]*v[2]; }
 
-    double length() const{
-      return std::sqrt(length_squared());
-    }
+    double length() const{ return std::sqrt(length_squared());}
+
+    T operator+(const Vector<T>& other) const{ return Vector<T>(v[0]+other.v[0], v[1]+other.v[1], v[2]+other.v[2]);}
+
+    Vector operator-(const Vector<T>& other) const{ return Vector<T>(v[0]-other.v[0], v[1]-other.v[1], v[2]-other.v[2]);}
+
+    Vector operator*(double t) const{ return Vector<T>(v[0]*t, v[1]*t, v[2]*t);}
+
+    double dot(const Vector<T>& other) const{ return v[0]*other.v[0]+v[1]*other.v[1]+v[2]*other.v[2];}
+
+    template <typename U>
+    friend std::ostream& operator<<(std::ostream& out, const Vector<U>& vec);
+
+    template <typename U>
+    friend Vector<U> operator*(double t, const Vector<U>& vec);
+
+    template <typename U>
+    friend Vector<U> cross(const Vector<U>& vec1, const Vector<U>& vec2);
+
 };
 
-using point3=vec3;
-
-inline std::ostream& operator<<(std::ostream& out, const vec3& v){
-  return out<<v.e[0]<<' '<<v.e[1]<<' '<<v.e[2];
+template<typename T>
+std::ostream& operator<<(std::ostream& out, const Vector<T>& vec){
+  return out<<vec.v[0]<<' '<<vec.v[1]<<' '<<vec.v[2];
 }
 
-inline vec3 operator+(const vec3& u, const vec3& v){
-  return vec3(u.e[0]+v.e[0], u.e[1]+v.e[1], u.e[2]+v.e[2]);
+template<typename T>
+Vector<T> operator*(double t, const Vector<T>& vec){
+  return Vector(vec.v[0]*t,vec.v[1]*t,vec.v[2]*t);
 }
 
-inline vec3 operator-(const vec3& u, const vec3& v){
-  return vec3(u.e[0]-v.e[0],u.e[1]-v.e[1],u.e[2]-v.e[2]);
-}
+template<typename T>
+Vector<T> cross(const Vector<T>& vec1, const Vector<T>& vec2){
+  return Vector<T>(vec1.v[1]*vec2.v[2]-vec1.v[2]*vec2.v[1], -(vec1.v[0]*vec2.v[2]-vec1.v[2]*vec2.v[0]), vec1.v[0]*vec2.v[1]-vec1.v[1]*vec2.v[0]);
+} 
 
-inline vec3 operator*(double t, const vec3& v){
-  return vec3(t*v.e[0],t*v.e[1],t*v.e[2]);
-}
+#ifndef VECTOR_H
+#define VECTOR_H
+class Point: public Vector<Point>{ using Vector::Vector;};
 
-inline vec3 operator*(const vec3& v, double t){
-  return t*v;
-}
-
-inline vec3 operator/(const vec3& v, double t){
-  return (1/t)*v;
-}
-
-inline double dot(const vec3& u, const vec3& v){
-  return u.e[0]*v.e[0]+u.e[1]*v.e[1]+u.e[2]*v.e[2];
-}
-
-inline vec3 cross(const vec3& u, const vec3& v){
-  return vec3(u.e[1]*v.e[2]-u.e[2]*v.e[1], -(u.e[0]*v.e[2]-u.e[2]*v.e[0]), u.e[0]*v.e[1]-u.e[1]*v.e[0]);
-}
-
-inline vec3 normalize(const vec3& v){
-  return v/v.length();
-}
-
-#endif 
+class Color: public Vector<Color>{ using Vector::Vector;};
+#endif
