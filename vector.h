@@ -22,8 +22,8 @@ class Vector{
 
     double z() const{ return v[2];}
 
-    Vector operator-() const{
-      return Vector(-v[0],-v[1],-v[2]);
+    T operator-() const{
+      return T(-v[0],-v[1],-v[2]);
     }
 
     double operator[](int i) const{ return v[i];}
@@ -56,11 +56,11 @@ class Vector{
 
     double length() const{ return std::sqrt(length_squared());}
 
-    T operator+(const Vector<T>& other) const{ return Vector<T>(v[0]+other.v[0], v[1]+other.v[1], v[2]+other.v[2]);}
+    T operator+(const Vector<T>& other) const{ return T(v[0]+other.v[0], v[1]+other.v[1], v[2]+other.v[2]);}
 
-    T operator-(const Vector<T>& other) const{ return Vector<T>(v[0]-other.v[0], v[1]-other.v[1], v[2]-other.v[2]);}
+    T operator-(const Vector<T>& other) const{ return T(v[0]-other.v[0], v[1]-other.v[1], v[2]-other.v[2]);}
 
-    T operator*(double t) const{ return Vector<T>(v[0]*t, v[1]*t, v[2]*t);}
+    T operator*(double t) const{ return T(v[0]*t, v[1]*t, v[2]*t);}
 
     double dot(const Vector<T>& other) const{ return v[0]*other.v[0]+v[1]*other.v[1]+v[2]*other.v[2];}
 
@@ -82,12 +82,12 @@ std::ostream& operator<<(std::ostream& out, const Vector<T>& vec){
 
 template<typename T>
 T operator*(double t, const Vector<T>& vec){
-  return Vector(vec.v[0]*t,vec.v[1]*t,vec.v[2]*t);
+  return T(vec.v[0]*t,vec.v[1]*t,vec.v[2]*t);
 }
 
 template<typename T>
 T cross(const Vector<T>& vec1, const Vector<T>& vec2){
-  return Vector<T>(vec1.v[1]*vec2.v[2]-vec1.v[2]*vec2.v[1], -(vec1.v[0]*vec2.v[2]-vec1.v[2]*vec2.v[0]), vec1.v[0]*vec2.v[1]-vec1.v[1]*vec2.v[0]);
+  return T(vec1.v[1]*vec2.v[2]-vec1.v[2]*vec2.v[1], -(vec1.v[0]*vec2.v[2]-vec1.v[2]*vec2.v[0]), vec1.v[0]*vec2.v[1]-vec1.v[1]*vec2.v[0]);
 } 
 
 class Point: public Vector<Point>{ using Vector::Vector;};
