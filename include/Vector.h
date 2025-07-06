@@ -57,7 +57,7 @@ class Vector{
     double length() const{ return std::sqrt(length_squared());}
 
     T normalized() const{
-      return *static_cast<T*>(this)/length();
+      return *this/length();
     }
 
     T operator+(const T& other) const{ return T(v[0]+other.v[0], v[1]+other.v[1], v[2]+other.v[2]);}
