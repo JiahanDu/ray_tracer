@@ -14,7 +14,13 @@ class Camera{
     Camera(int width, int height, int x, int y, int z): image_width(width), image_height(height), aspect_ratio(double(width)/height), center(0,0,0), bottom_left(x,y,z){}
 
     Color ray_color(const Ray& r, const Object& world) const{
-        //To be implemented
+        HitRecord rec;
+
+        if(world.hit(r, 0, INT_MAX, rec)){
+          return 0.5*(rec.normal+Color(1, 1, 1));
+        }
+
+        Point 
     }  
 
     void write_color(std::ostream& out, const Color& pixel_color) const{
