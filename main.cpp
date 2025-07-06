@@ -1,19 +1,14 @@
-#include "Camera.h"
-#include "Object.h"
-#include "ObjectList.h"
-#include "../sphere.h"
+#include "include/Camera.h"
+#include "include/Object.h"
+#include "include/ObjectList.h"
+#include "include/Objects/Sphere.h"
 
 int main(){
     ObjectList world;
     
-    world.add(make_shared<Sphere>(Point(0,0,100),50));
+    world.add(std::make_shared<Sphere>(Point(0,0,100),1));
 
-    Camera cam;
-    cam.image_width=100;
-    cam.image_height=100;
-    cam.x=-50;
-    cam.y=-50;
-    cam.z=50;
+    Camera cam(100,100,-50,-50,50);
 
     cam.render(world);
 }

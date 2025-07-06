@@ -2,19 +2,19 @@
 #include <memory>
 #include <vector>
 
-#ifndef ObjectList
-#define ObjectList
+#ifndef OBJECTLIST_H
+#define OBJECTLIST_H
 
 class ObjectList: public Object{
   public:
-    std::vector<<std::shapred_ptr<Object>> objects;
+    std::vector<std::shared_ptr<Object>> objects;
 
-    ObjectList() {}
+    ObjectList() {};
     ObjectList(std::shared_ptr<Object> object) { objects.push_back(object); }
 
     void clear() {objects.clear();}
 
-    void add(shared_ptr<Object> object){ objects.push_back(object);}
+    void add(std::shared_ptr<Object> object){ objects.push_back(object);}
     
     bool hit(const Ray& r, double t_min, double t_max, HitRecord& rec) const override{
         HitRecord temp;

@@ -1,4 +1,4 @@
-#include "../Objects.h"
+#include "../Object.h"
 #include "../Ray.h"
 
 class Sphere: public Object{
@@ -8,7 +8,7 @@ class Sphere: public Object{
   public:
     Sphere(Point center, double radius): center(center), radius(radius){}
   
-    bool hit(const Ray& r, double t_min, double t_max, Hit& rec) const override{
+    bool hit(const Ray& r, double t_min, double t_max, HitRecord& rec) const override{
       Point x=center-r.origin;
       double discriminant=dot(x,x)-dot(r.direction,r.direction)-radius*radius;
       if(discriminant<0){
@@ -26,6 +26,6 @@ class Sphere: public Object{
       rec.p=r(root);
       rec.normal=rec.p-center;
       rec.normal/=radius;
-      rec.exiting=dot(r.direction, rec.normal)>0;
+      return true;
     }
 };

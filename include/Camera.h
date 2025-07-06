@@ -18,10 +18,9 @@ class Camera{
         HitRecord rec;
     
         if(world.hit(r, 0, INT_MAX, rec)){
-          return 0.5*(rec.normal+Color(1, 1, 1));
+          return Color(0,0,1);
         }
-
-        Point 
+        return Color(1,1,1);
     }  
 
     void write_color(std::ostream& out, const Color& pixel_color) const{
