@@ -12,10 +12,11 @@ class Camera{
     Point bottom_left; // The bottom left corner of the view_port
 
     Camera(int width, int height, int x, int y, int z): image_width(width), image_height(height), aspect_ratio(double(width)/height), center(0,0,0), bottom_left(x,y,z){}
-
+    
+    //Following code can be changed to different logics
     Color ray_color(const Ray& r, const Object& world) const{
         HitRecord rec;
-
+    
         if(world.hit(r, 0, INT_MAX, rec)){
           return 0.5*(rec.normal+Color(1, 1, 1));
         }
