@@ -4,20 +4,16 @@
 #define RAY_H
 
 class Ray{
-  private:
-    Point _origin;
-    Point _direction;
   public:
+    Point origin;
+    Point direction;
+
     Ray() {}
 
-    Ray(const Point& origin, const Point& direction): _origin(origin), _direction(direction){}
-
-    const Point& origin() const{ return _origin;}
-
-    const Point& direction() const{ return _direction;}
+    Ray(const Point& _origin, const Point& _direction): origin(_origin), direction(_direction){}
 
     Point operator()(double t) const {
-        return _origin+t*_direction;
+        return origin+t*direction;
     }
 };
 

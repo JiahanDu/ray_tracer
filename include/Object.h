@@ -6,10 +6,9 @@
 
 class HitRecord{
   public:
-    Point p;
+    Point p; //p is the hit point
     Point normal;
     double t;
-    bool exiting;
 };
 
 class Object{
