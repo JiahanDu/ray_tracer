@@ -20,7 +20,9 @@ class Camera{
         if(world.hit(r, 0, INT_MAX, rec)){
           return Color(0,0,1);
         }
-        return Color(1,1,1);
+
+        std::cout<<"Here!\n";
+        return Color(1,0,0);
     }  
 
     void write_color(std::ostream& out, const Color& pixel_color) const{
@@ -37,14 +39,14 @@ class Camera{
       for(int i=0;i<image_width;i++){
         std::clog<<"\rNumber of lines remaining: "<< (image_width-i);
         for(int j=0;j<image_height;j++){
-          auto pixel_center=bottom_left+Point(i,0,0)+Point(0,j,0);
+          auto pixel_center=bottom_left+Point(i+0.5,0,0)+Point(0,j+0.5,0);
           Ray r(center, pixel_center);
           Color pixel_color=ray_color(r, world);
           write_color(std::cout,pixel_color);
         }
       }
       
-      std::clog<<"\rDone.                 \n";
+      std::clog<<"\rDone.                                    \n";
     }
 };
 

@@ -10,14 +10,16 @@ class Sphere: public Object{
   
     bool hit(const Ray& r, double t_min, double t_max, HitRecord& rec) const override{
       Point x=center-r.origin;
-      double discriminant=dot(x,x)-dot(r.direction,r.direction)-radius*radius;
+      double b=dot(x,r.direction);
+      double a=dot(r.direction,r.direction);
+      double discriminant=b*b-a*(dot(x,x)-radius*radius);
       if(discriminant<0){
         return false;
       }
-      double b=dot(r.direction,x);
-      double root=(b-std::sqrt(discriminant))/dot(r.direction, r.direction);
+
+      double root=(b-std::sqrt(discriminant))/a;
       if(root<t_min || root>t_max){
-        root=(b+std::sqrt(discriminant))/dot(r.direction, r.direction);
+        root=(b+std::sqrt(discriminant))/a;
         if(root<t_min || root>t_max){
           return false;
         }
