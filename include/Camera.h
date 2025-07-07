@@ -1,6 +1,7 @@
 #include "Object.h"
 #include <random>
 #include <climits>
+#include "rng.h"
 
 #ifndef CAMERA_H
 #define CAMERA_H
@@ -36,8 +37,6 @@ class Camera{
     }
 
     void render(const Object& world) const{
-      static std::mt19937_64 rng{std::random_device{}()};
-      static std::uniform_real_distribution<double> dist(0.0,1.0);
 
       std::cout<<"P3\n"<<image_width<<' '<<image_height<<"\n255\n";
 
@@ -47,7 +46,7 @@ class Camera{
           Color pixel_color(0,0,0);
           auto pixel_center=bottom_left+Point(i,0,0)+Point(0,j,0);
           for(int k=0;k<samples_per_pixel;k++){
-            Ray r(center, pixel_center+Point(dist(rng), dist(rng),0));
+            Ray r(center, pixel_center+Point(random_0_1(), random_0_1(),0));
             pixel_color+=ray_color(r,world);
           }
           pixel_color*=inverse;
