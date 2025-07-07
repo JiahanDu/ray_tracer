@@ -4,6 +4,8 @@
 #ifndef VECTOR_H
 #define VECTOR_H
 
+constexpr double pi=3.141592653589793238;
+
 template <typename T>
 class Vector{
 
@@ -73,36 +75,31 @@ class Vector{
 };
 
 template<typename T>
-double dot(const T& vec1, const T& vec2){
-  return vec1.v[0]*vec2.v[0]+vec1.v[1]*vec2.v[1]+vec1.v[2]*vec2.v[2];
-}
+double dot(const T& vec1, const T& vec2){return vec1.v[0]*vec2.v[0]+vec1.v[1]*vec2.v[1]+vec1.v[2]*vec2.v[2];}
 
 template<typename T>
-T cross(const T& vec1, const T& vec2){
-  return T(vec1.v[1]*vec2.v[2]-vec1.v[2]*vec2.v[1], -vec1.v[0]*vec2.v[2]+vec1.v[2]*vec2.v[0], vec1.v[0]*vec2.v[1]-vec1.v[1]*vec2.v[0]);
-} 
+T cross(const T& vec1, const T& vec2){return T(vec1.v[1]*vec2.v[2]-vec1.v[2]*vec2.v[1], -vec1.v[0]*vec2.v[2]+vec1.v[2]*vec2.v[0], vec1.v[0]*vec2.v[1]-vec1.v[1]*vec2.v[0]);} 
 
 template<typename T>
-std::ostream& operator<<(std::ostream& out, const Vector<T>& vec){
-  return out<<vec.v[0]<<' '<<vec.v[1]<<' '<<vec.v[2];
-}
+std::ostream& operator<<(std::ostream& out, const Vector<T>& vec){return out<<vec.v[0]<<' '<<vec.v[1]<<' '<<vec.v[2];}
 
 template<typename T>
-T operator*(double t, const Vector<T>& vec){
-  return T(vec.v[0]*t,vec.v[1]*t,vec.v[2]*t);
-}
+T operator*(double t, const Vector<T>& vec){ return T(vec.v[0]*t,vec.v[1]*t,vec.v[2]*t);}
 
 class Point: public Vector<Point>{ 
   using Vector::Vector;
 
   public:
-  static Point random(){
-    return Point(random_0_1(), random_0_1(), random_0_1());
-  }
-  
-  static Point random(double t_min, double t_max){
-    return Point(random_min_max(t_min,t_max),random_min_max(t_min,t_max),random_min_max(t_min,t_max));
-  }
+  static Point sphere(){
+    double u,v,s;
+    do{
+      u=random_min_max(-1,1);
+      v=random_min_max(-1,1);
+      s=u*u+v*v;
+    }while(s>=1.0||s==0);
+  } // Generate a random vector uniformly distributed on the sphere
+  double f=std::sqrt(1.0-s);
+  return Point(2.0*u*f, 2.0*v*f, 1.0-2.0*s);
 };
 
 class Color: public Vector<Color>{ using Vector::Vector;};
