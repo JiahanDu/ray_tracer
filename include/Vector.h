@@ -92,7 +92,18 @@ T operator*(double t, const Vector<T>& vec){
   return T(vec.v[0]*t,vec.v[1]*t,vec.v[2]*t);
 }
 
-class Point: public Vector<Point>{ using Vector::Vector;};
+class Point: public Vector<Point>{ 
+  using Vector::Vector;
+
+  public:
+  static Point random(){
+    return Point(random_0_1(), random_0_1(), random_0_1());
+  }
+  
+  static Point random(double t_min, double t_max){
+    return Point(random_min_max(t_min,t_max),random_min_max(t_min,t_max),random_min_max(t_min,t_max));
+  }
+};
 
 class Color: public Vector<Color>{ using Vector::Vector;};
 #endif
