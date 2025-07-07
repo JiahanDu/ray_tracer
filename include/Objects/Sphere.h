@@ -16,10 +16,10 @@ class Sphere: public Object{
       if(discriminant<0){
         return false;
       }
-
-      double root=(b-std::sqrt(discriminant))/a;
+      double sqrt_d=std::sqrt(discriminant);
+      double root=(b-sqrt_d)/a;
       if(root<t_min || root>t_max){
-        root=(b+std::sqrt(discriminant))/a;
+        root=(b+sqrt_d)/a;
         if(root<t_min || root>t_max){
           return false;
         }

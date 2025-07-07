@@ -1,4 +1,6 @@
 #include "Object.h"
+#include <random>
+#include <climits>
 
 #ifndef CAMERA_H
 #define CAMERA_H
@@ -10,18 +12,18 @@ class Camera{
     double aspect_ratio; // The ratio of image_width to image_height 
     Point center;  //Location of the camera
     Point bottom_left; // The bottom left corner of the view_port
+    int samples_per_pixel; 
+    double inverse;
 
-    Camera(int width, int height, int x, int y, int z): image_width(width), image_height(height), aspect_ratio(double(width)/height), center(0,0,0), bottom_left(x,y,z){}
+    Camera(int width, int height, int x, int y, int z, int s): image_width(width), image_height(height), aspect_ratio(double(width)/height), center(0,0,0), bottom_left(x,y,z), samples_per_pixel(s), inverse(1.0/samples_per_pixel){}
     
     //Following code can be changed to different logics
     Color ray_color(const Ray& r, const Object& world) const{
         HitRecord rec;
     
         if(world.hit(r, 0, INT_MAX, rec)){
-          return Color(0,0,1);
+          return Color(rec.normal.x()+1,rec.normal.y()+1,rec.normal.z()+1)*0.5;
         }
-
-        std::cout<<"Here!\n";
         return Color(1,0,0);
     }  
 
@@ -34,14 +36,21 @@ class Camera{
     }
 
     void render(const Object& world) const{
+      static std::mt19937_64 rng{std::random_device{}()};
+      static std::uniform_real_distribution<double> dist(0.0,1.0);
+
       std::cout<<"P3\n"<<image_width<<' '<<image_height<<"\n255\n";
 
       for(int i=0;i<image_width;i++){
         std::clog<<"\rNumber of lines remaining: "<< (image_width-i);
         for(int j=0;j<image_height;j++){
-          auto pixel_center=bottom_left+Point(i+0.5,0,0)+Point(0,j+0.5,0);
-          Ray r(center, pixel_center);
-          Color pixel_color=ray_color(r, world);
+          Color pixel_color(0,0,0);
+          auto pixel_center=bottom_left+Point(i,0,0)+Point(0,j,0);
+          for(int k=0;k<samples_per_pixel;k++){
+            Ray r(center, pixel_center+Point(dist(rng), dist(rng),0));
+            pixel_color+=ray_color(r,world);
+          }
+          pixel_color*=inverse;
           write_color(std::cout,pixel_color);
         }
       }
