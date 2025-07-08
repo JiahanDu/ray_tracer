@@ -19,13 +19,20 @@ class Camera{
     Camera(int width, int height, int x, int y, int z, int s): image_width(width), image_height(height), aspect_ratio(double(width)/height), center(0,0,0), bottom_left(x,y,z), samples_per_pixel(s), inverse(1.0/samples_per_pixel){}
     
     //Following code can be changed to different logics
-    Color ray_color(const Ray& r, const Object& world) const{
+    Color ray_color(const Ray& r, const Object& world, int depth=0) const{
+        if(depth>=50){
+          return Color(1.0,0,0);
+        }
         HitRecord rec;
     
         if(world.hit(r, 0, INT_MAX, rec)){
-          return Color(rec.normal.x()+1,rec.normal.y()+1,rec.normal.z()+1)*0.5;
+          Point random_on_sphere=Point::sphere();
+          if(dot(random_on_sphere,rec.normal)<0){
+            random_on_sphere=-random_on_sphere;
+          }
+          return ray_color(Ray(rec.p,random_on_sphere),world,depth+1)*0.5;
         }
-        return Color(1,0,0);
+        return Color(0.5,0.7,1.0);
     }  
 
     void write_color(std::ostream& out, const Color& pixel_color) const{

@@ -1,5 +1,6 @@
 #include <cmath>
 #include <iostream>
+#include "rng.h"
 
 #ifndef VECTOR_H
 #define VECTOR_H
@@ -87,9 +88,10 @@ template<typename T>
 T operator*(double t, const Vector<T>& vec){ return T(vec.v[0]*t,vec.v[1]*t,vec.v[2]*t);}
 
 class Point: public Vector<Point>{ 
-  using Vector::Vector;
 
   public:
+  Point(): Vector<Point>{0,0,0}{}
+  Point(double x, double y, double z): Vector<Point>{x,y,z}{}
   static Point sphere(){
     double u,v,s;
     do{
@@ -97,10 +99,14 @@ class Point: public Vector<Point>{
       v=random_min_max(-1,1);
       s=u*u+v*v;
     }while(s>=1.0||s==0);
+    double f=std::sqrt(1.0-s);
+    return Point(2.0*u*f, 2.0*v*f, 1.0-2.0*s);
   } // Generate a random vector uniformly distributed on the sphere
-  double f=std::sqrt(1.0-s);
-  return Point(2.0*u*f, 2.0*v*f, 1.0-2.0*s);
 };
 
-class Color: public Vector<Color>{ using Vector::Vector;};
+class Color: public Vector<Color>{
+  public:
+    Color(): Vector<Color>{0,0,0}{}
+    Color(double x, double y, double z): Vector<Color>{x,y,z}{}
+};
 #endif
