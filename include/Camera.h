@@ -36,9 +36,9 @@ class Camera{
     }  
 
     void write_color(std::ostream& out, const Color& pixel_color) const{
-      int r=int(255.999*pixel_color.x());
-      int g=int(255.999*pixel_color.y());
-      int b=int(255.999*pixel_color.z());
+      int r=int(255.999*std::sqrt(pixel_color.x()));
+      int g=int(255.999*std::sqrt(pixel_color.y()));
+      int b=int(255.999*std::sqrt(pixel_color.z())); //Taking the square root performs gamma correction.
 
       out<<r<<' '<<g<<' '<<b<<'\n';
     }
