@@ -9,7 +9,7 @@ class Material{
     virtual bool scatter(const Ray& r_in, const HitRecord& rec, Color& attenuation, Ray& scattered) const {
         return false;
     }
-}
+};
 
 class Lambertian: public Material{
   public:
@@ -22,6 +22,10 @@ class Lambertian: public Material{
         attenuation=albedo;
         return true;
     }
-}
+};
+
+class Metal: public Material{
+
+};
 
 #endif 
