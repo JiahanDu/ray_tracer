@@ -25,7 +25,7 @@ class Camera{
         }
         HitRecord rec;
     
-        if(world.hit(r, 0, INT_MAX, rec)){
+        if(world.hit(r, 0.001, INT_MAX, rec)){
           Point random_on_sphere=Point::sphere();
           if(dot(random_on_sphere,rec.normal)<0){
             random_on_sphere=-random_on_sphere;
@@ -47,11 +47,11 @@ class Camera{
 
       std::cout<<"P3\n"<<image_width<<' '<<image_height<<"\n255\n";
 
-      for(int i=0;i<image_width;i++){
-        std::clog<<"\rNumber of lines remaining: "<< (image_width-i);
-        for(int j=0;j<image_height;j++){
+      for(int i=0;i<image_height;i++){
+        std::clog<<"\rNumber of lines remaining: "<< (image_height-i);
+        for(int j=0;j<image_width;j++){
           Color pixel_color(0,0,0);
-          auto pixel_center=bottom_left+Point(i,0,0)+Point(0,j,0);
+          auto pixel_center=bottom_left+Point(j,i,0);
           for(int k=0;k<samples_per_pixel;k++){
             Ray r(center, pixel_center+Point(random_0_1(), random_0_1(),0));
             pixel_color+=ray_color(r,world);

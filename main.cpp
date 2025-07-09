@@ -7,9 +7,8 @@ int main(){
     ObjectList world;
     
     world.add(std::make_shared<Sphere>(Point(0,0,300),100));
-    world.add(std::make_shared<Sphere>(Point(0,-500,600),100));
 
-    Camera cam(1000,1000,-500,-500,200,10);
+    Camera cam(1000,800,-500,-400,200,10);
 
     cam.render(world);
 }
