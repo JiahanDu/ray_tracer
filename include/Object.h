@@ -4,11 +4,14 @@
 #ifndef OBJECTS_H
 #define OBJECTS_H
 
+class Material;
+
 class HitRecord{
   public:
     Point p; //p is the hit point
     Point normal;
     double t;
+    std::shared_ptr<Material> mat;
 };
 
 class Object{
