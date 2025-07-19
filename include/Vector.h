@@ -111,6 +111,10 @@ class Point: public Vector<Point>{
     Point dir= (p-dot(p,normal)*normal).normalized();
     return v*normal+u*dir;
   }
+
+  Point reflect(const Point& normal) const{
+    return *this-2*dot(*this, normal)*normal;
+  }
 };
 
 class Color: public Vector<Color>{
