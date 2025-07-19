@@ -73,6 +73,8 @@ class Vector{
       double u=1/t;
       return T(v[0]*u, v[1]*u, v[2]*u);
     }
+
+    T operator*(const T& other) const{ return T(v[0]*other.v[0], v[1]*other.v[1], v[2]*other.v[2]);}
 };
 
 template<typename T>

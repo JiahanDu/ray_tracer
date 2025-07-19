@@ -6,6 +6,8 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
+#define MAX_DEPTH 10
+
 class Camera{
   public:
     int image_width; //Number of pixels per row
@@ -20,14 +22,18 @@ class Camera{
     
     //Following code can be changed to different logics
     Color ray_color(const Ray& r, const Object& world, int depth=0) const{
-        if(depth>=50){
+        if(depth>=MAX_DEPTH){
           return Color(1.0,0,0);
         }
         HitRecord rec;
     
         if(world.hit(r, 0.001, INT_MAX, rec)){
-          Point random_on_sphere=Point::Lambertian_sample(rec.normal);
-          return ray_color(Ray(rec.p,random_on_sphere),world,depth+1)*0.5;
+          Ray scattered;
+          Color attenuation;
+          if(rec.mat_ptr->scatter(r, rec, attenuation, scattered)){
+            return attenuation*ray_color(scattered, world, depth+1);
+          }
+          return Color(0,0,0);
         }
         return Color(0.5,0.7,1.0);
     }  

@@ -7,7 +7,7 @@ class Sphere: public Object{
     double radius; 
     std::shared_ptr<Material> mat;
   public:
-    Sphere(const Point& center, double radius): center(center), radius(radius){}
+    Sphere(const Point& center, double radius, std::shared_ptr<Material> mat): center(center), radius(radius), mat(mat){}
   
     bool hit(const Ray& r, double t_min, double t_max, HitRecord& rec) const override{
       Point x=center-r.origin;
