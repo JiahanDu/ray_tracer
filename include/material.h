@@ -31,10 +31,10 @@ class Metal: public Material{
 
     bool scatter(const Ray& r_in, const HitRecord& rec, Color& attenuation, Ray& scattered) const override{
         auto reflected=Point::reflect(Point::unit_vector(r_in.direction()), rec.normal);
-        scattered=Ray(rec.p, reflected);
+        scattered=Ray(rec.origin, reflected);
         attenuation=albedo;
         return true;
-    })
+    }
 };
 
 #endif 
