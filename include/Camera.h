@@ -26,10 +26,7 @@ class Camera{
         HitRecord rec;
     
         if(world.hit(r, 0.001, INT_MAX, rec)){
-          Point random_on_sphere=Point::sphere();
-          if(dot(random_on_sphere,rec.normal)<0){
-            random_on_sphere=-random_on_sphere;
-          }
+          Point random_on_sphere=Point::Lambertian_sample(rec.normal);
           return ray_color(Ray(rec.p,random_on_sphere),world,depth+1)*0.5;
         }
         return Color(0.5,0.7,1.0);

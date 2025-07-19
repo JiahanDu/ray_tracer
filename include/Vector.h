@@ -92,6 +92,7 @@ class Point: public Vector<Point>{
   public:
   Point(): Vector<Point>{0,0,0}{}
   Point(double x, double y, double z): Vector<Point>{x,y,z}{}
+
   static Point sphere(){
     double u,v,s;
     do{
@@ -102,6 +103,14 @@ class Point: public Vector<Point>{
     double f=std::sqrt(1.0-s);
     return Point(2.0*u*f, 2.0*v*f, 1.0-2.0*s);
   } // Generate a random vector uniformly distributed on the sphere
+
+  static Point Lambertian_sample(const Point& normal){
+    double u=random_0_1();
+    double v=std::sqrt(1-u*u);
+    Point p=Point::sphere();
+    Point dir= (p-dot(p,normal)*normal).normalized();
+    return v*normal+u*dir;
+  }
 };
 
 class Color: public Vector<Color>{
