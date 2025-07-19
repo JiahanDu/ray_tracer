@@ -1,5 +1,6 @@
 #include "Vector.h"
 #include "Ray.h"
+#include "Material.h"
 
 #ifndef OBJECTS_H
 #define OBJECTS_H

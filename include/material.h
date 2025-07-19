@@ -4,7 +4,7 @@
 
 class Material{
   public:
-    virtual ~material()=default;
+    virtual ~Material()=default;
 
     virtual bool scatter(const Ray& r_in, const HitRecord& rec, Color& attenuation, Ray& scattered) const {
         return false;
@@ -30,8 +30,8 @@ class Metal: public Material{
     Metal(const Color& albedo): albedo(albedo){}
 
     bool scatter(const Ray& r_in, const HitRecord& rec, Color& attenuation, Ray& scattered) const override{
-        auto reflected=Point::reflect(Point::unit_vector(r_in.direction()), rec.normal);
-        scattered=Ray(rec.origin, reflected);
+        auto reflected=r_in.direction.reflect(rec.normal);
+        scattered=Ray(rec.p, reflected);
         attenuation=albedo;
         return true;
     }

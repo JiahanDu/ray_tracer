@@ -30,7 +30,7 @@ class Camera{
         if(world.hit(r, 0.001, INT_MAX, rec)){
           Ray scattered;
           Color attenuation;
-          if(rec.mat_ptr->scatter(r, rec, attenuation, scattered)){
+          if(rec.mat->scatter(r, rec, attenuation, scattered)){
             return attenuation*ray_color(scattered, world, depth+1);
           }
           return Color(0,0,0);
