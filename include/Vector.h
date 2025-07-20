@@ -119,9 +119,12 @@ class Point: public Vector<Point>{
   }
 
   Point refract(const Point& normal, double ratio) const{
-    //ratio is the ratio of refraction index of material/refraction index of air.
+    //ratio is the ratio of refraction index of air/refraction index of material.
     //refraction index of air is very close to 1.
-    return Point(0,0,0);
+    Point in_direction=(*this).normalized();
+    Point perp=ratio*(in_direction+dot(in_direction,normal)*normal);
+    Point parallel=-std::sqrt(std::abs(1.0-perp.length_squared()))*normal;
+    return perp+parallel;
   }
 };
 

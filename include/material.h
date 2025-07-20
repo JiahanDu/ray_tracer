@@ -46,7 +46,7 @@ class Dielectric: public Material{
 
     bool scatter(const Ray& r_in, const HitRecord& rec, Color& attenuation, Ray& scattered) const{
       attenuation=Color(1,1,1);
-      Point refracted=r_in.direction.refract(rec.normal, refraction_index);
+      Point refracted=r_in.direction.refract(rec.normal, 1.0/refraction_index);
       scattered=Ray(rec.p,refracted);
       return true;
     }
