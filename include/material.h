@@ -2,6 +2,8 @@
 #define MATERIAL_H
 #include "Object.h"
 
+#define refraction_index_medium 1.0
+
 class Material{
   public:
     virtual ~Material()=default;
@@ -46,9 +48,17 @@ class Dielectric: public Material{
 
     bool scatter(const Ray& r_in, const HitRecord& rec, Color& attenuation, Ray& scattered) const{
       attenuation=Color(1,1,1);
-      Point refracted=r_in.direction.refract(rec.normal, 1.0/refraction_index);
-      scattered=Ray(rec.p,refracted);
-      return true;
+      double cos_theta= dot(-r_in.direction, rec.normal)/dot(r_in.direction,r_in.direction);
+      double sin_theta=std::sqrt(1-cos_theta*cos_theta);
+      if(sin_theta*refraction_index/refraction_index_medium>1){
+        Point refracted=r_in.direction.refract(rec.normal, refraction_index_medium/refraction_index);
+        scattered=Ray(rec.p,refracted);
+        return true;
+      }else{
+        Point reflected=r_in.direction.reflect(rec.normal);
+        scattered=Ray(rec.p,reflected);
+        return true;
+      }
     }
 };
 
