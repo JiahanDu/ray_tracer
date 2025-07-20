@@ -2,7 +2,7 @@
 #define MATERIAL_H
 #include "Object.h"
 
-#define refraction_index_medium 1.0
+#define refraction_index_medium 1.0003
 
 class Material{
   public:
@@ -43,18 +43,23 @@ class Metal: public Material{
 class Dielectric: public Material{
   public:
     double refraction_index;
+    double reflection_coefficient;
 
     Dielectric(double refraction_index): refraction_index(refraction_index){}
 
+
     bool scatter(const Ray& r_in, const HitRecord& rec, Color& attenuation, Ray& scattered) const{
       attenuation=Color(1,1,1);
-      double cos_theta= dot(-r_in.direction, rec.normal)/dot(r_in.direction,r_in.direction);
+      Point unit_direction=r_in.direction.normalized();
+      double cos_theta= dot(-unit_direction, rec.normal);
       double sin_theta=std::sqrt(1-cos_theta*cos_theta);
-      if(sin_theta*refraction_index/refraction_index_medium>1){
+      double r0=(refraction_index_medium-refraction_index)/(refraction_index_medium+refraction_index);
+      r0=r0*r0;
+      if(sin_theta*refraction_index_medium/refraction_index<=1 || r0+(1-r0)*std::pow((1-cos_theta),5)>random_0_1()){ 
         Point refracted=r_in.direction.refract(rec.normal, refraction_index_medium/refraction_index);
         scattered=Ray(rec.p,refracted);
         return true;
-      }else{
+      }else{ //Refraction is not possible in this case
         Point reflected=r_in.direction.reflect(rec.normal);
         scattered=Ray(rec.p,reflected);
         return true;

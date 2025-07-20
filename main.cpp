@@ -12,7 +12,7 @@ int main(){
 
     world.add(std::make_shared<Sphere>(Point(0,-150,300),100, std::make_shared<Metal>(Color(0.1,0.9,0.5),0.2)));
 
-    Camera cam(1000,800,-500,-400,200,10);
+    Camera cam(1000,800,-500,-400,200,500);
 
     cam.render(world);
 }
