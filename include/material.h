@@ -27,10 +27,11 @@ class Lambertian: public Material{
 class Metal: public Material{
   public:
     Color albedo;
-    Metal(const Color& albedo): albedo(albedo){}
+    double fuzz; //fuzz should be a double between 0 and 1.
+    Metal(const Color& albedo, double fuzz): albedo(albedo), fuzz(fuzz){}
 
     bool scatter(const Ray& r_in, const HitRecord& rec, Color& attenuation, Ray& scattered) const override{
-        auto reflected=r_in.direction.reflect(rec.normal);
+        auto reflected=(r_in.direction.reflect(rec.normal)).normalized()+fuzz*Point::sphere();
         scattered=Ray(rec.p, reflected);
         attenuation=albedo;
         return true;

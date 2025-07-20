@@ -117,6 +117,10 @@ class Point: public Vector<Point>{
   Point reflect(const Point& normal) const{
     return *this-2*dot(*this, normal)*normal;
   }
+
+  Point refract(const Point& normal, double ratio){
+    
+  }
 };
 
 class Color: public Vector<Color>{
