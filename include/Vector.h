@@ -119,7 +119,7 @@ class Point: public Vector<Point>{
   }
 
   Point refract(const Point& normal, double ratio){
-    
+    return Point(0,0,0);
   }
 };
 

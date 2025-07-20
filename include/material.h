@@ -38,4 +38,15 @@ class Metal: public Material{
     }
 };
 
+class Dielectric: public Material{
+  public:
+    double refraction_index;
+
+    Dielectric(double refraction_index): refraction_index(refraction_index){}
+
+    bool scatter(const Ray& r_in, const HitRecord& rec, Color& attenuation, Ray& scattered) const{
+      return true;
+    }
+};
+
 #endif 

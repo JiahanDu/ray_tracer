@@ -56,7 +56,7 @@ class Camera{
           Color pixel_color(0,0,0);
           auto pixel_center=bottom_left+Point(j,i,0);
           for(int k=0;k<samples_per_pixel;k++){
-            Ray r(center, pixel_center+Point(random_0_1(), random_0_1(),0));
+            Ray r(center, (pixel_center+Point(random_0_1(), random_0_1(),0)).normalized());
             pixel_color+=ray_color(r,world);
           }
           pixel_color*=inverse;
