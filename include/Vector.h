@@ -118,7 +118,9 @@ class Point: public Vector<Point>{
     return *this-2*dot(*this, normal)*normal;
   }
 
-  Point refract(const Point& normal, double ratio){
+  Point refract(const Point& normal, double ratio) const{
+    //ratio is the ratio of refraction index of material/refraction index of air.
+    //refraction index of air is very close to 1.
     return Point(0,0,0);
   }
 };
